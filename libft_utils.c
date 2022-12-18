@@ -6,10 +6,11 @@
 /*   By: ael-maar <ael-maar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 19:28:10 by ael-maar          #+#    #+#             */
-/*   Updated: 2022/12/17 19:36:06 by ael-maar         ###   ########.fr       */
+/*   Updated: 2022/12/18 11:40:18 by ael-maar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 
 static int	ft_isalpha(int c)
 {
