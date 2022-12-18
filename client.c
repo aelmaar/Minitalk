@@ -6,7 +6,7 @@
 /*   By: ael-maar <ael-maar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 09:19:10 by ael-maar          #+#    #+#             */
-/*   Updated: 2022/12/18 19:33:50 by ael-maar         ###   ########.fr       */
+/*   Updated: 2022/12/18 20:22:22 by ael-maar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,11 @@
 #include <signal.h>
 #include <unistd.h>
 #include "libft.h"
+#include <math.h>
 
-void	send_signal(int pid, char c)
+char	bin[9];
+
+static void	send_signal(int pid, char c)
 {
 	int	send;
 	int	cnt_bits;
@@ -43,20 +46,63 @@ void	send_signal(int pid, char c)
 	}
 }
 
+
+static void	bin_tochar(char binary[])
+{
+	int	i;
+	int	dec;
+
+	i = 0;
+	dec = 0;
+	while (binary[i])
+	{
+		if (binary[i] == '1')
+			dec += (int)pow(2, i);
+		i++;
+	}
+	if (dec == 0)
+		exit(0);
+	else
+		write(1, &dec, 1);
+}
+
+static void	handler_sigusr(int sig, siginfo_t *info, void *vp)
+{
+	static int		i;
+
+	bin[8] = '\0';
+	if (sig == SIGUSR1)
+		bin[i++] = '0';
+	else if (sig == SIGUSR2)
+		bin[i++] = '1';
+	if (i == 8)
+	{
+		bin_tochar(bin);
+		i = 0;
+	}
+}
+
 int	main(int argc, char *argv[])
 {
 	int	i;
 	int	pid;
+	struct sigaction	sa;
 
 	i = 0;
 	pid = 0;
+	sa.sa_sigaction = handler_sigusr;
+	sa.sa_flags = SA_SIGINFO;
+	sigaction(SIGUSR1, &sa, NULL);
+	sigaction(SIGUSR2, &sa, NULL);
 	if (argc == 3)
 	{
 		pid = ft_atoi(argv[1]);
 		while (argv[2][i])
-		{
 			send_signal(pid, argv[2][i++]);
-		}
+		if (argv[2][i] == 0)
+			send_signal(pid, argv[2][i]);
+		while (1)
+			pause();
 	}
 	return (0);
 }

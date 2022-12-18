@@ -6,7 +6,7 @@
 /*   By: ael-maar <ael-maar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 09:19:18 by ael-maar          #+#    #+#             */
-/*   Updated: 2022/12/18 19:33:42 by ael-maar         ###   ########.fr       */
+/*   Updated: 2022/12/18 20:17:29 by ael-maar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,48 @@
 
 char	bin[9];
 
-static void	bin_tochar(char binary[])
+static void	send_signal(int pid, char c)
+{
+	int	send;
+	int	cnt_bits;
+
+	send = 0;
+	cnt_bits = 0;
+	while (c > 0)
+	{
+		if ((c % 2) == 0)
+			send = kill(pid, SIGUSR1);
+		else
+			send = kill(pid, SIGUSR2);
+		cnt_bits++;
+		if (send == -1)
+			exit(0);
+		c /= 2;
+		usleep(120);
+	}
+	while (cnt_bits <= 7)
+	{
+		send = kill(pid, SIGUSR1);
+		cnt_bits++;
+		usleep(120);
+	}
+}
+
+static void	send_to_clients(siginfo_t *info)
+{
+	char	*message;
+
+	message = "MSG RECEIVED";
+	while (*message)
+	{
+		send_signal((int)info->si_pid, *message);
+		message++;
+	}
+	if (*message == 0)
+		send_signal((int)info->si_pid, *message);
+}
+
+static void	bin_tochar(char binary[], siginfo_t *info)
 {
 	int	i;
 	int	dec;
@@ -31,7 +72,10 @@ static void	bin_tochar(char binary[])
 			dec += (int)pow(2, i);
 		i++;
 	}
-	write(1, &dec, 1);
+	if (dec == 0)
+		send_to_clients(info);
+	else
+		write(1, &dec, 1);
 }
 
 static void	handler_sigusr(int sig, siginfo_t *info, void *vp)
@@ -51,7 +95,7 @@ static void	handler_sigusr(int sig, siginfo_t *info, void *vp)
 		bin[i++] = '1';
 	if (i == 8)
 	{
-		bin_tochar(bin);
+		bin_tochar(bin, info);
 		i = 0;
 	}
 }
