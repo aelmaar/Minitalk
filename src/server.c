@@ -6,7 +6,7 @@
 /*   By: ael-maar <ael-maar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 09:19:18 by ael-maar          #+#    #+#             */
-/*   Updated: 2022/12/22 18:20:46 by ael-maar         ###   ########.fr       */
+/*   Updated: 2022/12/24 19:41:40 by ael-maar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	main(void)
 	struct sigaction	sa;
 
 	sa.sa_sigaction = handler_sigusr;
+	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = SA_SIGINFO;
 	ft_printf("The server PID: %d\n", getpid());
 	sigaction(SIGUSR1, &sa, NULL);

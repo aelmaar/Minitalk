@@ -6,7 +6,7 @@
 /*   By: ael-maar <ael-maar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 14:34:56 by ael-maar          #+#    #+#             */
-/*   Updated: 2022/12/22 20:17:16 by ael-maar         ###   ########.fr       */
+/*   Updated: 2022/12/24 18:28:42 by ael-maar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	main(int argc, char **argv)
 	pid = 0;
 	argv_test = (unsigned char *)argv[2];
 	sa.sa_handler = handler_sigusr;
+	sigemptyset(&sa.sa_mask);
 	sigaction(SIGUSR1, &sa, NULL);
 	if (argc == 3)
 	{

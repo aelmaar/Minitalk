@@ -6,7 +6,7 @@
 #    By: ael-maar <ael-maar@student.1337.ma>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/20 15:25:33 by ael-maar          #+#    #+#              #
-#    Updated: 2022/12/22 20:16:23 by ael-maar         ###   ########.fr        #
+#    Updated: 2022/12/23 12:26:11 by ael-maar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ PRINTF_NAME = ./printf/libftprintf.a
 
 all: $(NAME)
 
-$(NAME): $(PRINTF_NAME)
+$(NAME): $(PRINTF_NAME) $(SRCS_SERVER) $(SRCS_CLIENT)
 	gcc $(CFLAGS) $(SRCS_SERVER) -I $(INC_DIR) -I ./printf -o server
 	gcc $(CFLAGS) $(SRCS_CLIENT) -I $(INC_DIR) -o client
 
