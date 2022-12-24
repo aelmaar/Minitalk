@@ -6,14 +6,14 @@
 /*   By: ael-maar <ael-maar@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 14:34:54 by ael-maar          #+#    #+#             */
-/*   Updated: 2022/12/24 20:32:13 by ael-maar         ###   ########.fr       */
+/*   Updated: 2022/12/24 22:23:49 by ael-maar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "server.h"
 #include "ft_printf.h"
 
-char	bin[9];
+char	g_bin[9];
 
 static void	handler_sigusr(int sig, siginfo_t *info, void *vp)
 {
@@ -26,14 +26,14 @@ static void	handler_sigusr(int sig, siginfo_t *info, void *vp)
 		i = 0;
 		previoud_pid = (int)info->si_pid;
 	}
-	bin[8] = '\0';
+	g_bin[8] = '\0';
 	if (sig == SIGUSR1)
-		bin[i++] = '0';
+		g_bin[i++] = '0';
 	else if (sig == SIGUSR2)
-		bin[i++] = '1';
+		g_bin[i++] = '1';
 	if (i == 8)
 	{
-		bin_tochar_bonus(bin, info);
+		bin_tochar_bonus(g_bin, info);
 		i = 0;
 	}
 }
