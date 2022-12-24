@@ -6,7 +6,7 @@
 #    By: ael-maar <ael-maar@student.1337.ma>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/20 15:25:33 by ael-maar          #+#    #+#              #
-#    Updated: 2022/12/23 12:26:11 by ael-maar         ###   ########.fr        #
+#    Updated: 2022/12/24 22:12:52 by ael-maar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,5 +49,3 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re bonus
-# %.o:%.c
-# 	gcc -I $(INC_DIR) $< -o $@
